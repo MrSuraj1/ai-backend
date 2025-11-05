@@ -1,0 +1,25 @@
+{
+  "name": "backend-ai",
+  "version": "1.0.0",
+  "description": "AI Meeting Assistance Backend",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "nodemon server.js",
+    "dev": "nodemon server.js"
+  },
+  "dependencies": {
+    "@videosdk.live/js-sdk": "^0.3.5",
+    "@videosdk.live/react-sdk": "^0.4.2",
+    "axios": "^1.12.2",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "node-fetch": "^3.3.2",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
