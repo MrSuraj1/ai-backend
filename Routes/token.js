@@ -1,19 +1,23 @@
 import express from "express";
-import axios from "axios";
+import jwt from "jsonwebtoken";
+
 const router = express.Router();
 
-router.get("/", async (req, res) => {
-  try {
-    const response = await axios.post("https://api.videosdk.live/v2/token", {
-      apikey: process.env.VIDEOSDK_API_KEY,
-      permissions: ["allow_join", "allow_mod"],  // ✅ ये दोनों जरूरी हैं
-    });
+router.get("/", (req, res) => {
+  const API_KEY = process.env.VIDEOSDK_API_KEY;
+  const SECRET_KEY = process.env.VIDEOSDK_SECRET_KEY;
 
-    res.json({ token: response.data.token });
-  } catch (err) {
-    console.error("❌ Token generation error:", err.response?.data || err.message);
-    res.status(500).json({ error: "Failed to generate token" });
-  }
+  const token = jwt.sign(
+    {
+      apikey: API_KEY,
+      permissions: ["allow_join", "allow_mod"],
+    },
+    SECRET_KEY,
+    
+    { expiresIn: "24h", algorithm: "HS256" }
+  );
+
+  res.json({ token });
 });
 
 export default router;
