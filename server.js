@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://ai-meet.netlify.app"], // array of allowed origins
+    origin: ["http://localhost:5173", "https://ai-meet.netlify.app" , "https://ai-backend-zczd.onrender.com"], // array of allowed origins
     credentials: true, // allow cookies/auth headers
   })
 );
