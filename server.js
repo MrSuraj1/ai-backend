@@ -9,9 +9,9 @@ const app = express();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://ai-meet.netlify.app",
-  "https://ai-backend-zczd.onrender.com",
+  "https://ai-meet.netlify.app"
 ];
+
 
 // ✅ CORS middleware सबसे ऊपर होना चाहिए
 app.use(
