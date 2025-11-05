@@ -7,36 +7,22 @@ import createmeeting from "./Routes/CreateMeeting.js";
 dotenv.config();
 const app = express();
 
-// ✅ CORS Configuration
 const allowedOrigins = [
   "http://localhost:5173",
   "https://ai-meet.netlify.app",
   "https://ai-backend-zczd.onrender.com",
 ];
 
+// ✅ CORS middleware सबसे ऊपर होना चाहिए
 app.use(
   cors({
-    origin: function (origin, callback) {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error("Not allowed by CORS"));
-      }
-    },
-    credentials: true, // ✅ Allow credentials
+    origin: allowedOrigins,
+    credentials: true,
   })
 );
 
-// ✅ Allow all headers + methods
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Credentials", "true");
-  res.header("Access-Control-Allow-Methods", "GET,POST,PUT,DELETE,OPTIONS");
-  res.header(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content-Type, Accept, Authorization"
-  );
-  next();
-});
+// ✅ यह line manually मत लगाओ — Render में ये auto conflict बनाती है
+// app.use((req, res, next) => { ... }) ❌  ← इसे हटा दो
 
 app.use(express.json());
 
