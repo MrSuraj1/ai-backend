@@ -3,15 +3,15 @@ import axios from "axios";
 
 const router = express.Router();
 
-const API_KEY = process.env.VIDEOSDK_API_KEY;
-const SECRET = process.env.VIDEOSDK_SECRET;
+const API_KEY = "df83590d-a877-4446-a58b-d7a23534c299";
+const SECRET = "6e3aaa3506d7872d54c051029abcf6ad6349a26b64ae48cdd60c73e85228adfe";
 
 router.get("/", async (req, res) => {
   try {
     console.log("🎯 Generating token...");
 
     const { data } = await axios.post(
-      "https://api.videosdk.live/v2/auth/token", // ✅ Correct endpoint
+      "https://api.videosdk.live/v1/auth/token", // ✅ Correct endpoint
       {
         apikey: API_KEY,
         secret: SECRET,
