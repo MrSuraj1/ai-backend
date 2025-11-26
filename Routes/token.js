@@ -17,7 +17,10 @@ app.get("/api/get-token", async (req, res) => {
       {
         apikey: API_KEY,
         secret: SECRET,
-        permissions: ["allow_join", "allow_mod", "allow_create"],
+        permissions: ["allow_join", "allow_mod", "allow_create" ,
+  "allow_webcam",
+  "allow_mic",
+  "allow_screen_share"],
       },
       {
         headers: { "Content-Type": "application/json" },
@@ -32,3 +35,5 @@ app.get("/api/get-token", async (req, res) => {
 });
 
 app.listen(8080, () => console.log("✅ Server running on port 8080"));
+
+export default app;
