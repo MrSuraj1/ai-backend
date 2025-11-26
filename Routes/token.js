@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const router = express.Router();   // <-- YOU MISSED THIS LINE EARLIER
+const router = express.Router();   /
 
 router.get("/", (req, res) => {
   try {
@@ -13,7 +13,12 @@ router.get("/", (req, res) => {
     const token = jwt.sign(
       {
         apikey: process.env.VIDEOSDK_API_KEY,
-        permissions: ["allow_join", "allow_mod", "allow_create"],
+        permissions: ["allow_join",
+    "allow_mod",
+    "allow_create",
+    "ask_join",
+    "ask_mod",
+    "ask_create"],
         version: 2,
       },
       process.env.VIDEOSDK_SECRET_KEY,
