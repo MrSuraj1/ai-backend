@@ -16,11 +16,13 @@ router.get("/", (req, res) => {
     const payload = {
       apikey: API_KEY,
       permissions: [
-        "allow_join",
-        "allow_mod",
-        "allow_create",
-        // depending on your need you can add ask_* variants
-      ],
+    "allow_join",
+    "allow_mod",
+    "allow_create",
+    "allow_webcam",
+    "allow_share",
+    "allow_record"
+  ],
       version: 2,
     };
 
