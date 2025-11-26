@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import tokenRoute from "./Routes/token.js";
-import createMeetingRoute from "./Routes/createMeeting.js";
+import createMeetingRoute from "./Routes/CreateMeeting.js";
 import dotenv from "dotenv";
 
 dotenv.config();
