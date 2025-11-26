@@ -9,20 +9,16 @@ dotenv.config();
 
 const app = express();
 
-const FRONTENDS = (process.env.FRONTEND_ORIGINS || "http://localhost:5173")
-  .split(",")
-  .map(s => s.trim());
 
-app.use(
-  cors({
-    origin: (origin, callback) => {
-      // allow no-origin (curl/postman) too
-      if (!origin || FRONTENDS.indexOf(origin) !== -1) return callback(null, true);
-      return callback(new Error("Not allowed by CORS"));
-    },
-    credentials: true,
-  })
-);
+
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "https://ai-meet.netlify.app"
+  ],
+  methods: ["GET", "POST"],
+  credentials: true
+}));
 
 app.use(express.json());
 
