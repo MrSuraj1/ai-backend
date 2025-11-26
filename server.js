@@ -1,29 +1,71 @@
 import express from "express";
-import dotenv from "dotenv";
 import cors from "cors";
 import tokenRoute from "./Routes/token.js";
-import createMeetingRoute from "./Routes/CreateMeeting.js";
+import createMeetingRoute from "./Routes/createMeeting.js";
+import dotenv from "dotenv";
 
 dotenv.config();
-const app = express();
 
+const app = express();
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://ai-meet.netlify.app"
+];
+
+
+// ✅ CORS middleware सबसे ऊपर होना चाहिए
 app.use(
   cors({
-    origin: ["http://localhost:5173", "https://ai-meet.netlify.app"],
+    origin: allowedOrigins,
     credentials: true,
   })
-);
+);app.use(express.json());
 
-app.use(express.json());
-
-// Routes
 app.use("/api/get-token", tokenRoute);
 app.use("/api/create-meeting", createMeetingRoute);
 
-app.get("/", (req, res) => {
-  res.send("🚀 AI Meet Backend Running!");
-});
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server running on ${PORT}`));
 
-app.listen(process.env.PORT || 5000, () => {
-  console.log("🚀 Server running on", process.env.PORT || 5000);
-});
+
+
+
+// import express from "express";
+// import dotenv from "dotenv";
+// import cors from "cors";
+// import tokenRoute from "./Routes/token.js";
+// import createmeeting from "./Routes/CreateMeeting.js";
+
+// dotenv.config();
+// const app = express();
+
+// const allowedOrigins = [
+//   "http://localhost:5173",
+//   "https://ai-meet.netlify.app"
+// ];
+
+
+// // ✅ CORS middleware सबसे ऊपर होना चाहिए
+// app.use(
+//   cors({
+//     origin: allowedOrigins,
+//     credentials: true,
+//   })
+// );
+
+// // ✅ यह line manually मत लगाओ — Render में ये auto conflict बनाती है
+// // app.use((req, res, next) => { ... }) ❌  ← इसे हटा दो
+
+// app.use(express.json());
+
+// // ✅ Routes
+// app.use("/api/get-token", tokenRoute);
+// app.use("/api/create-meeting", createmeeting);
+
+// app.get("/", (req, res) => {
+//   res.send("✅ AI Meet Backend Running Properly!");
+// });
+
+// app.listen(process.env.PORT || 5000, () => {
+//   console.log(`🚀 Server running on port ${process.env.PORT || 5000}`);
+// });
