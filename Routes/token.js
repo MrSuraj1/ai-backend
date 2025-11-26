@@ -1,5 +1,5 @@
 import express from "express";
-import axios from "axios";
+import jwt from "jsonwebtoken";
 
 const router = express.Router();
 
@@ -8,22 +8,24 @@ const SECRET = "6e3aaa3506d7872d54c051029abcf6ad6349a26b64ae48cdd60c73e85228adfe
 
 router.get("/", async (req, res) => {
   try {
-    console.log("🎯 Generating token...");
+    console.log("🎯 Generating JWT token...");
 
-    const { data } = await axios.post(
-      "https://api.videosdk.live/v1/auth/token", // ✅ Correct endpoint
-      {
-        apikey: API_KEY,
-        secret: SECRET,
-        permissions: ["allow_join", "allow_mod", "allow_create"],
-      },
-      { headers: { "Content-Type": "application/json" } }
-    );
+    const payload = {
+      apikey: API_KEY,
+      permissions: ["allow_join", "allow_mod", "allow_create"],
+      version: 2,
+    };
 
-    console.log("✅ Token generated:", data.token.substring(0, 20) + "...");
-    return res.json({ token: data.token });
+    const token = jwt.sign(payload, SECRET, {
+      expiresIn: "2h",
+      algorithm: "HS256",
+    });
+
+    console.log("✅ Token generated:", token.substring(0, 25) + "...");
+
+    return res.json({ token });
   } catch (err) {
-    console.error("❌ Error generating token:", err.response?.data || err.message);
+    console.error("❌ Error generating token:", err);
     res.status(500).json({ error: "Failed to generate token" });
   }
 });
