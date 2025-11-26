@@ -1,3 +1,4 @@
+// routes/createMeeting.js
 import express from "express";
 import axios from "axios";
 
@@ -5,31 +6,28 @@ const router = express.Router();
 
 router.post("/", async (req, res) => {
   try {
-    console.log("🎯 /api/create-meeting called");
     const { token } = req.body;
+    if (!token) return res.status(400).json({ error: "Token required in body" });
 
-    if (!token) {
-      console.log("❌ No token received");
-      return res.status(400).json({ error: "Token missing" });
-    }
-
-    const response = await axios.post(
+    // VideoSDK expects header 'authorization' with token (no Bearer typically)
+    const resp = await axios.post(
       "https://api.videosdk.live/v2/rooms",
-      {},
+      {}, // empty body
       {
         headers: {
-          Authorization: `Bearer ${token}`,
+          authorization: token,
+          "Content-Type": "application/json",
         },
+        timeout: 10000,
       }
     );
 
-    console.log("✅ Meeting created:", response.data.roomId);
-    return res.json(response.data);
+    console.log("✅ Room created:", resp.data);
+    res.json(resp.data);
   } catch (err) {
-    console.error("❌ Create meeting error:", err.response?.data || err.message);
-    return res.status(500).json({
-      error: err.response?.data || err.message,
-    });
+    console.error("❌ create-meeting error:", err.response?.data || err.message || err);
+    const status = err.response?.status || 500;
+    res.status(500).json({ error: err.response?.data || err.message || "Server error" });
   }
 });
 
