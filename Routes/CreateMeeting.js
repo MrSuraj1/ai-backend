@@ -3,7 +3,7 @@ import axios from "axios";
 
 const router = express.Router();
 
-router.post("/", async (req, res) => {
+router.post("/create-meeting", async (req, res) => {
   try {
     const { token } = req.body;
 
@@ -12,15 +12,18 @@ router.post("/", async (req, res) => {
       {},
       {
         headers: {
-          Authorization: token,
+          Authorization: `Bearer ${token}`, // ✔ CORRECT
           "Content-Type": "application/json",
         },
       }
     );
 
-    res.json({ meetingId: response.data.roomId });
+    return res.json({ meetingId: response.data.roomId });
   } catch (error) {
-    res.status(500).json({ error: "Meeting creation failed" });
+    console.log("Create meeting error:", error.response?.data);
+    return res.status(500).json({
+      error: error.response?.data || "Meeting creation failed",
+    });
   }
 });
 

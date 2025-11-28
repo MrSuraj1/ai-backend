@@ -22,7 +22,7 @@ app.use(
 app.use(express.json());
 
 // API Routes
-app.use("/api/get-token", tokenRoute);
+app.use("/api/", tokenRoute);
 app.use("/api/create-meeting", createMeetingRoute);
 
 app.get("/", (req, res) => {
