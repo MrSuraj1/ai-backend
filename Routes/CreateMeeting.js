@@ -5,14 +5,20 @@ const router = express.Router();
 
 router.post("/create-meeting", async (req, res) => {
   try {
-    const { token } = req.body;
+    const authHeader = req.headers.authorization;
+
+    if (!authHeader || !authHeader.startsWith("Bearer ")) {
+      return res.status(401).json({ error: "Token missing in header" });
+    }
+
+    const token = authHeader.split(" ")[1];
 
     const response = await axios.post(
       "https://api.videosdk.live/v2/rooms",
       {},
       {
         headers: {
-          Authorization: `Bearer ${token}`, // ✔ CORRECT
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
       }
@@ -21,7 +27,7 @@ router.post("/create-meeting", async (req, res) => {
     return res.json({ meetingId: response.data.roomId });
   } catch (error) {
     console.log("Create meeting error:", error.response?.data);
-    return res.status(500).json({
+    res.status(500).json({
       error: error.response?.data || "Meeting creation failed",
     });
   }

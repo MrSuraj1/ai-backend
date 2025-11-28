@@ -22,8 +22,9 @@ app.use(
 app.use(express.json());
 
 // API Routes
-app.use("/api/", tokenRoute);
-app.use("/api/", createMeetingRoute);
+app.use("/api", tokenRoute);
+app.use("/api", createMeetingRoute);
+
 
 app.get("/", (req, res) => {
   res.send("✅ Backend running successfully!");
